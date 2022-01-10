@@ -1,10 +1,10 @@
 import './App.css'
-import React, { useState, useEffect } from 'react'
-import {Avatar, Card, Grid, Typography} from '@material-ui/core'
+import React, {useState, useEffect} from 'react'
+import {Card, Grid, Typography} from '@material-ui/core'
+import StyledAvatar from './components/StyledAvatar';
 
 //TODO: 2 Move these calls into a proper api layer
 const domain = 'http://localhost:3000'
-const defaultAvatar = 'https://image.shutterstock.com/image-vector/male-avatar-profile-picture-vector-600w-149083895.jpg'
 
 function App() {
   const [movies, setMovies] = useState([]);
@@ -51,15 +51,18 @@ function App() {
         <h3>Images:</h3>
         <Grid container justify="center" alignItems="center">
           {movies.map(movie =>
-            //TODO: 3 move styles into a separate js file and export this class using withStyles or similar or just to css file
             <Grid item xs={12} sm={6} lg={4}>
               <Card className={cardStyle}>
-                <Avatar alt={movie.name} src={movie.img ? movie.img : defaultAvatar}
-                        style={{margin: 5, width: avatarSize, height: avatarSize}}/>
+                <StyledAvatar
+                  name={movie.name}
+                  src={movie.img}
+                  width={avatarSize}
+                  height={avatarSize}
+                />
                 <div>
-                  <Typography style={{display: 'inline-block'}}>
+                  <Typography className="Movie-information">
                     {movie.name + ' '}
-                    <Typography style={{fontWeight: 'bold', display: 'inline-block'}}>
+                    <Typography className="Movie-position">
                       {movie.position}
                     </Typography>
                   </Typography>

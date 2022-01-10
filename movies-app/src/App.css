@@ -76,3 +76,12 @@
   align-items: center;
   justify-content: left;
 }
+
+.Movie-information {
+  display: inline-block;
+}
+
+.Movie-position {
+  font-weight: bold;
+  display: inline-block;
+}
