@@ -2,9 +2,7 @@ import './App.css'
 import React, {useState, useEffect} from 'react'
 import {Card, Grid, Typography} from '@material-ui/core'
 import StyledAvatar from './components/StyledAvatar';
-
-//TODO: 2 Move these calls into a proper api layer
-const domain = 'http://localhost:3000'
+import CinemaService from './services/cinema'
 
 function App() {
   const [movies, setMovies] = useState([]);
@@ -26,20 +24,10 @@ function App() {
 
   useEffect(() => {
     window.addEventListener('resize', responsiveStyle)
-    fetch(`${domain}/studios`)
-      .then(response => {
-        return response.json();
-      })
-      .then(studios => {
-        setStudios(studios)
-      });
-    fetch(`${domain}/movies`)
-      .then(response => {
-        return response.json();
-      })
-      .then(movies => {
-        setMovies(movies)
-      });
+    CinemaService.loadMovies()
+      .then(movies => { setMovies(movies); });
+    CinemaService.loadStudios()
+      .then(studios => { setStudios(studios); });
   }, [])
 
 
