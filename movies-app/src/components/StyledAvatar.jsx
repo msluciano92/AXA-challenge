@@ -13,7 +13,6 @@ const useStyles = makeStyles({
 
 const StylesAvatar = (props) =>{
     const { avatar } = useStyles(props);
-    console.log(avatar);
     const { name, src }  = props;
     return(
         <Avatar className={`${avatar}`} alt={name} src={src || defaultAvatar} />
