@@ -33,9 +33,7 @@ function App() {
 
   return (
     <div className="App">
-      <div className="App-studios App-flex"> {
-        //TODO: 4 Categorize each image with a title and a description
-      }
+      <div className="App-studios App-flex"> 
         <h3>Images:</h3>
         <Grid container justify="center" alignItems="center">
           {movies.map(movie =>
