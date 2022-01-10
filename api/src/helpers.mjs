@@ -27,8 +27,7 @@ export const getAllMoviesFromStudios = (studios) => {
 export const movieConstructor = (movie, studio) => {
   //Set url property to img
   if (movie.url) {
-    Object.defineProperty(movie, 'img',
-      Object.getOwnPropertyDescriptor(movie, 'url'));
+    Object.defineProperty(movie, 'img', Object.getOwnPropertyDescriptor(movie, 'url'));
     delete movie['url'];
   }
   //Map position id to string
@@ -41,7 +40,6 @@ export const movieConstructor = (movie, studio) => {
   //Remove non wanted properties
   delete movie['price'];
   delete movie['id'];
-
   return movie;
 }
 
