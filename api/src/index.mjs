@@ -4,6 +4,12 @@ import bodyParser from 'body-parser'
 import {getAllMoviesFromStudios} from '../src/helpers.mjs'
 import {sony, warner, disney, movieAge, sonyImages} from '../constants/studio_constants.mjs'
 
+const studios = {
+  1: disney,
+  2: warner,
+  3: sony,
+}
+
 const app = express();
 
 app.use(cors());
@@ -46,9 +52,20 @@ app.get('/movieAge', function (req, res) {
 
 //TODO: 1 add the capability to sell the movie rights to another studio
 app.post('/transfer', function (req, res) {
-  const originStudio = '';
-  const targetStudio = '';
-  // if studio is sony -> add img to the node and update
+  const { originStudioId, targetStudioId, movieId, img } = req.body;
+  const originStudio = studios[originStudioId];
+  const targetStudio = studios[targetStudioId];
+  
+  // Find movie item and remove from origin studio 
+  const movie = originStudio.movies 
+    .find((movie) => (movie.id === movieId));
+  const moviePositionInOriginStudio = originStudio.movies 
+    .findIndex((movie) => (movie.id === movieId));
+  originStudio.movies
+    .splice(moviePositionInOriginStudio, 1);
+  
+  // Insert film in target studio
+  targetStudio.movies.push(movie);
 });
 
 // TODO: 2 Add logging capabilities into the movies-app

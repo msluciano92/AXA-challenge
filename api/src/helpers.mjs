@@ -35,11 +35,7 @@ export const movieConstructor = (movie, studio) => {
     movie['position'] = GENRE_STRING[movie.price];
   }
   //Add studioId from parent object
-  Object.defineProperty(movie, 'studioId',
-    Object.getOwnPropertyDescriptor(studio, 'id'));
-  //Remove non wanted properties
-  delete movie['price'];
-  delete movie['id'];
+  Object.defineProperty(movie, 'studioId', Object.getOwnPropertyDescriptor(studio, 'id'));
   return movie;
 }
 
