@@ -10,7 +10,7 @@ const loadMovies = () => {
 		}));
 }
 
-const loadStudios = () => {
+const loadStudios = (data) => {
 	return fetch(`${domain}/studios`)
 		.then(response => {
 			return response.json();
@@ -20,7 +20,24 @@ const loadStudios = () => {
 		});
 }
 
+const transferMovie = (data) => {
+	const { originStudioId, targetStudioId, movieId, img } = data;
+	const fetchConfiguration = {
+		method: 'PUT',
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify({
+			originStudioId,
+			targetStudioId,
+			movieId,
+			img
+		})
+	}
+	return fetch(`${domain}/movies`, fetchConfiguration)
+		.then(() => {});
+}
+
 export default {
 	loadMovies,
 	loadStudios,
+	transferMovie,
 }

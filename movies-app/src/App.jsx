@@ -11,6 +11,7 @@ function App() {
   const [avatarSize, setAvatarSize] = useState(280);
   const [cardStyle, setCardStyle] = useState('regularCard');
   const [selectedStudio, setSelectedStudio] = useState(1);
+  const [selectedMovie, setSelectedMovie] = useState(null);
   const [open, setOpen] = React.useState(false);
 
   const responsiveStyle = () => {
@@ -25,8 +26,25 @@ function App() {
     }
   }
 
-  const transferMovie = (data) => {
-    console.log(data);
+  const openModal = (movie) => {
+    setSelectedMovie(movie);
+    setOpen(!open);
+  }
+
+  const transferMovie = (targetStudio) => {
+    const {id, img, studioId} = selectedMovie;
+    const updateMoviePayload = {
+			originStudioId: studioId,
+			targetStudioId: targetStudio,
+			movieId: id,
+			img
+		}
+    CinemaService.transferMovie(updateMoviePayload)
+      .then(() => {
+        setOpen(!open);
+        CinemaService.loadMovies()
+          .then(movies => { setMovies(movies); });
+      });
   }
 
   useEffect(() => {
@@ -54,7 +72,7 @@ function App() {
                 />
                 <div>
                   <Typography className="Movie-information">
-                    {movie.name + ' '}
+                    {movie.name}
                     <Typography className="Movie-position">
                       {movie.position}
                     </Typography>
@@ -67,7 +85,7 @@ function App() {
                     return studio.name
                   }
                 })}</Typography>
-                <Button onClick={setOpen} variant="contained">Sell film for $ {movie.price}</Button>
+                <Button onClick={() => {openModal(movie)}} variant="contained">Sell film for $ {movie.price}</Button>
                 <Modal
                   aria-labelledby="unstyled-modal-title"
                   aria-describedby="unstyled-modal-description"
@@ -87,14 +105,14 @@ function App() {
                           onChange={(e) => {setSelectedStudio(e.target.value)}}
                           // input={<BootstrapInput />}
                         >
-                          <MenuItem value={1}>Sony</MenuItem>
-                          <MenuItem value={2}>Disney</MenuItem>
-                          <MenuItem value={3}>Warner bros</MenuItem>
+                          <MenuItem value={1}>Disney</MenuItem>
+                          <MenuItem value={2}>Warner</MenuItem>
+                          <MenuItem value={3}>Sony</MenuItem>
                         </Select>
                       </FormControl>
                     </div>
                     <div className="margin-top">
-                      <Button onClick={() => {transferMovie({moviePosition: i, targetStudio: selectedStudio})}} className="margin-left" variant="contained">Sell</Button>
+                      <Button onClick={() => {transferMovie(selectedStudio)}} className="margin-left" variant="contained">Sell</Button>
                       <Button className="margin-left" onClick={() => {setOpen(!open)}} variant="contained">Cancel</Button>
                     </div>
                   </Box>
