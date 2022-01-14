@@ -50,8 +50,7 @@ app.get('/movieAge', function (req, res) {
   res.json(movieAge)
 });
 
-//TODO: 1 add the capability to sell the movie rights to another studio
-app.post('/transfer', function (req, res) {
+app.put('/movies', function (req, res) {
   const { originStudioId, targetStudioId, movieId, img } = req.body;
   const originStudio = studios[originStudioId];
   const targetStudio = studios[targetStudioId];
@@ -63,9 +62,14 @@ app.post('/transfer', function (req, res) {
     .findIndex((movie) => (movie.id === movieId));
   originStudio.movies
     .splice(moviePositionInOriginStudio, 1);
-  
+
   // Insert film in target studio
-  targetStudio.movies.push(movie);
+  targetStudio.movies.push({
+    ...movie,
+    url: img,
+    img,
+  });
+  res.json();
 });
 
 // TODO: 2 Add logging capabilities into the movies-app
