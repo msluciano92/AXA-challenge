@@ -2,7 +2,7 @@ import './App.css'
 import React, {useState, useEffect} from 'react'
 import {Card, Grid, Typography, Button, Box, Modal, MenuItem, Select, makeStyles} from '@material-ui/core'
 import StyledAvatar from './components/StyledAvatar';
-import CinemaService from './services/cinema'
+import CinemaService from './services/Cinema'
 import FormControl from '@material-ui/core/FormControl';
 
 const useStyles = makeStyles(theme => ({

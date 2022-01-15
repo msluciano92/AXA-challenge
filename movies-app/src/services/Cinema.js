@@ -36,8 +36,10 @@ const transferMovie = (data) => {
 		.then(() => {});
 }
 
-export default {
+const CinemaService = {
 	loadMovies,
 	loadStudios,
 	transferMovie,
 }
+
+export default CinemaService;
