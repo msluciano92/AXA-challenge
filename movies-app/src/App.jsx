@@ -10,7 +10,7 @@ function App() {
   const [studios, setStudios] = useState([]);
   const [avatarSize, setAvatarSize] = useState(280);
   const [cardStyle, setCardStyle] = useState('regularCard');
-  const [selectedStudio, setSelectedStudio] = useState(1);
+  const [selectedStudio, setSelectedStudio] = useState();
   const [selectedMovie, setSelectedMovie] = useState(null);
   const [open, setOpen] = React.useState(false);
 
@@ -28,6 +28,11 @@ function App() {
 
   const openModal = (movie) => {
     setSelectedMovie(movie);
+    setOpen(!open);
+  }
+
+  const closeModal = () => {
+    setSelectedStudio(null);
     setOpen(!open);
   }
 
@@ -85,38 +90,43 @@ function App() {
                     return studio.name
                   }
                 })}</Typography>
-                <Button onClick={() => {openModal(movie)}} variant="contained">Sell film for $ {movie.price}</Button>
-                <Modal
-                  aria-labelledby="unstyled-modal-title"
-                  aria-describedby="unstyled-modal-description"
-                  open={open}
-                  onClose={() => {setOpen(!open)}}
-                >
-                  <Box className="modal">
-                    <h2 id="unstyled-modal-title">Are you sure you want to sell this movie for $ {movie.price}</h2>
-                    <div>
-                      <FormControl>
-                        Select a company
-                        <Select
-                          labelId="demo-customized-select-label"
-                          id="demo-customized-select"
-                          className="margin-top"
-                          value={selectedStudio}
-                          onChange={(e) => {setSelectedStudio(e.target.value)}}
-                          // input={<BootstrapInput />}
-                        >
-                          <MenuItem value={1}>Disney</MenuItem>
-                          <MenuItem value={2}>Warner</MenuItem>
-                          <MenuItem value={3}>Sony</MenuItem>
-                        </Select>
-                      </FormControl>
-                    </div>
-                    <div className="margin-top">
-                      <Button onClick={() => {transferMovie(selectedStudio)}} className="margin-left" variant="contained">Sell</Button>
-                      <Button className="margin-left" onClick={() => {setOpen(!open)}} variant="contained">Cancel</Button>
-                    </div>
-                  </Box>
-                </Modal>
+                <Button onClick={() => {openModal(movie)}} variant="contained">Transfer film for $ {movie.price}</Button>
+                {
+                  selectedMovie && (
+                    <Modal
+                      aria-labelledby="unstyled-modal-title"
+                      aria-describedby="unstyled-modal-description"
+                      open={open}
+                      onClose={() => {setOpen(!open)}}
+                    >
+                      <Box className="modal">
+                        <h2 id="unstyled-modal-title">Are you sure you want to transfer this movie for $ {selectedMovie.price}</h2>
+                        <div>
+                          <FormControl>
+                            Select a studio
+                            <Select
+                              labelId="demo-customized-select-label"
+                              id="demo-customized-select"
+                              className="margin-top"
+                              value={selectedStudio}
+                              onChange={(e) => {setSelectedStudio(e.target.value)}}
+                            >
+                              {
+                                JSON.parse(JSON.stringify(studios))
+                                    .filter((studio) => (selectedMovie && studio.id !== selectedMovie.studioId))
+                                    .map((studio) => (<MenuItem value={studio.id}>{studio.shortName}</MenuItem>))
+                              }
+                            </Select>
+                          </FormControl>
+                        </div>
+                        <div className="margin-top">
+                          <Button disabled={!selectedStudio} onClick={() => {transferMovie(selectedStudio)}} className="margin-left" variant="contained">Sell</Button>
+                          <Button className="margin-left" onClick={() => {closeModal(!open)}} variant="contained">Cancel</Button>
+                        </div>
+                      </Box>
+                    </Modal>
+                  )
+                }
               </Card>
             </Grid>)}
         </Grid>
