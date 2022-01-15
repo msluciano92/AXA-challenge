@@ -1,30 +1,37 @@
 import './App.css'
 import React, {useState, useEffect} from 'react'
-import {Card, Grid, Typography, Button, Box, Modal, MenuItem, Select} from '@material-ui/core'
+import {Card, Grid, Typography, Button, Box, Modal, MenuItem, Select, makeStyles} from '@material-ui/core'
 import StyledAvatar from './components/StyledAvatar';
 import CinemaService from './services/cinema'
 import FormControl from '@material-ui/core/FormControl';
 
+const useStyles = makeStyles(theme => ({
+  card: {
+    border: '1px solid gray',
+    borderRadius: '4px',
+    margin: '2px',
+    padding: '5px',
+    display: 'flex',
+    alignItems: 'center',
+    [theme.breakpoints.down('sm')]: {
+      flexDirection: 'row',
+      justifyContent: 'left',
+    },
+    [theme.breakpoints.up('sm')]: {
+      flexDirection: 'column',
+      justifyContent: 'center',
+    },
+  },
+}));
+
 function App() {
   const [movies, setMovies] = useState([]);
   const [studios, setStudios] = useState([]);
-  const [avatarSize, setAvatarSize] = useState(280);
-  const [cardStyle, setCardStyle] = useState('regularCard');
   const [selectedStudio, setSelectedStudio] = useState();
   const [selectedMovie, setSelectedMovie] = useState(null);
   const [open, setOpen] = React.useState(false);
 
-  const responsiveStyle = () => {
-    //TODO: produce a better resize strategy
-    if (window.innerWidth < 601) {
-      console.log(window.innerWidth)
-      setAvatarSize(60)
-      setCardStyle('smallCard')
-    } else {
-      setAvatarSize(280)
-      setCardStyle('regularCard')
-    }
-  }
+  const classes = useStyles();
 
   const openModal = (movie) => {
     setSelectedMovie(movie);
@@ -53,7 +60,6 @@ function App() {
   }
 
   useEffect(() => {
-    window.addEventListener('resize', responsiveStyle)
     CinemaService.loadMovies()
       .then(movies => { setMovies(movies); });
     CinemaService.loadStudios()
@@ -68,12 +74,10 @@ function App() {
         <Grid container justify="center" alignItems="center">
           {movies.map((movie, i) =>
             <Grid item xs={12} sm={6} lg={4}>
-              <Card className={cardStyle}>
+              <Card className={classes.card}>
                 <StyledAvatar
                   name={movie.name}
                   src={movie.img}
-                  width={avatarSize}
-                  height={avatarSize}
                 />
                 <div>
                   <Typography className="Movie-information">
