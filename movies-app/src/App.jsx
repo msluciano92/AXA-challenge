@@ -39,7 +39,7 @@ const useStyles = makeStyles(theme => ({
     '& > *': {
       margin: theme.spacing(1),
     },
-  }
+  },
 }));
 
 function App() {
@@ -97,7 +97,7 @@ function App() {
     <div className="App">
       <ThemeProvider theme={theme}>
         <div className="App-studios App-flex"> 
-          <h3>Images:</h3>
+          <h3>Movies:</h3>
           <Grid container justify="center" alignItems="center">
             {movies.map((movie, i) =>
               <Grid item xs={12} sm={6} lg={4}>
