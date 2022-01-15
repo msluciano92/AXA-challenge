@@ -10,7 +10,7 @@ const loadMovies = () => {
 		}));
 }
 
-const loadStudios = (data) => {
+const loadStudios = () => {
 	return fetch(`${domain}/studios`)
 		.then(response => {
 			return response.json();
