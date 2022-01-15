@@ -39,3 +39,9 @@ export const movieConstructor = (movie, studio) => {
   return movie;
 }
 
+export const logger = (req, res, next) => {
+  const { method, url } = req;
+  const now = new Date();
+  console.log(`${now} - ${method} - ${url}`);
+  next();
+}

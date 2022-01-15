@@ -1,19 +1,14 @@
 import express from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser'
-import {getAllMoviesFromStudios} from '../src/helpers.mjs'
-import {sony, warner, disney, movieAge, sonyImages} from '../constants/studio_constants.mjs'
-
-const studios = {
-  1: disney,
-  2: warner,
-  3: sony,
-}
+import {getAllMoviesFromStudios, logger} from '../src/helpers.mjs'
+import {sony, warner, disney, movieAge, sonyImages, studiosMap} from '../constants/studio_constants.mjs'
 
 const app = express();
 
 app.use(cors());
 app.use(bodyParser.json());
+app.use(logger);
 
 app.get('/studios', function (req, res) {
   let disneyTemp = {...disney}
@@ -52,8 +47,8 @@ app.get('/movieAge', function (req, res) {
 
 app.put('/movies', function (req, res) {
   const { originStudioId, targetStudioId, movieId, img } = req.body;
-  const originStudio = studios[originStudioId];
-  const targetStudio = studios[targetStudioId];
+  const originStudio = studiosMap[originStudioId];
+  const targetStudio = studiosMap[targetStudioId];
   
   // Find movie item and remove from origin studio 
   const movie = originStudio.movies 
@@ -71,7 +66,5 @@ app.put('/movies', function (req, res) {
   });
   res.json();
 });
-
-// TODO: 2 Add logging capabilities into the movies-app
 
 app.listen(3000)
