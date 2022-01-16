@@ -80,12 +80,13 @@ function App() {
         CinemaService.loadMovies()
           .then(movies => { 
             setMovies(movies); 
+            setSelectedStudio(null);
             setSnackbarOpen(true);
           });
       });
   }
 
-  useEffect(() => {
+  useEffect(async () => {
     CinemaService.loadMovies()
       .then(movies => { setMovies(movies); });
     CinemaService.loadStudios()
@@ -98,7 +99,7 @@ function App() {
       <ThemeProvider theme={theme}>
         <div className="App-studios App-flex"> 
           <h3>Movies:</h3>
-          <Grid container justify="center" alignItems="center">
+          <Grid container justifyContent="center" alignItems="center">
             {movies.map((movie, i) =>
               <Grid item xs={12} sm={6} lg={4}>
                 <Card className={classes.card}>
@@ -161,9 +162,9 @@ function App() {
                 </Card>
               </Grid>)}
           </Grid>
-          <Snackbar open={snackbarOpen} autoHideDuration={3000} onClose={handleSnackbarClose}>
+          <Snackbar anchorOrigin={{vertical: 'top', horizontal: 'right'}} open={snackbarOpen} autoHideDuration={3000} onClose={handleSnackbarClose}>
             <Alert severity="success" variant="filled">
-              Movie tranfered - list has been updated
+              Movie tranfered - Movies have been updated
             </Alert>
           </Snackbar>
         </div>

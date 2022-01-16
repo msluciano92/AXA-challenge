@@ -5,6 +5,6 @@ import App from "./App";
 describe("App Component", function () {
   it("should have Images: tag", function () {
     let { getByText } = render(<App />);
-    expect(getByText("Images:")).toBeDefined();
+    expect(getByText("Movies:")).toBeDefined();
   });
 });
