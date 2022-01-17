@@ -86,7 +86,7 @@ function App() {
       });
   }
 
-  useEffect(async () => {
+  useEffect(() => {
     CinemaService.loadMovies()
       .then(movies => { setMovies(movies); });
     CinemaService.loadStudios()
