@@ -1,0 +1,12 @@
+- Inicialmente la app no corría -> no encuentraba public/index.html lo cual es el default, esto se puede resolver de dos maneras:
+	- Con eject , modificando la ruta del index.html
+	- Mover el index.html a /public (seguí este último camino)
+- Gitignore not defined
+- Mismo puerto para api y front app (react-script lo detecta y te sugiere el uso de un alternativo, en mi caso fue el 3001)
+- Componente app no detectado por react/scripts para levantar la aplicación (cambio de id "root" a "app")
+- Issue con imagenes: 2 problemas encontrados:
+	- Imagenes con problemas de CORS y content privacy (No lo pude solucionar dese la app)
+	- Imagenes para sony studio: inicialmente no se incluían en el nodo imagen, matchee cada película con su imagen correspondiente
+- Log capabilities: agregue un middleware al servidor de next definido en el archivo api/src/helpers.mjs -> logger que imprime en consola información del request que se esta haciendo a la API, se puede extender esta funcionalidad usando fs (JS library) para guardar el log en un archivo o usar alguna herramienta que lea la standard output de la api y lo envie a algun servicio de logs (logrotate)
+- Improvement en el aplicado de clases para el height y weight, incialmente tenía un listener para escuchar el ancho de página, utilicé la capacidad de Material de breakpoints para aplicar el tamaño correcto https://mui.com/customization/breakpoints/ (El código se encuentra en StyledAvatar component)
+- Unit testing/RTL: Cree un test pequeño que detecta el titulo "Images: " de la app, no proceguí por falta de conocimientos en unit testing.
