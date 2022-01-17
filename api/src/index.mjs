@@ -27,7 +27,6 @@ app.get('/studios', function (req, res) {
 app.get('/movies', function (req, res) {
   try {
     // Match sony films with their imgs
-    // TODO move to helper
     const sonyMoviesWithImg = sony.movies
       .map((movie) => {
         return ({
